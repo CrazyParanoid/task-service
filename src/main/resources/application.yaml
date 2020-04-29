@@ -40,6 +40,13 @@ spring:
           lob:
             non_contextual_creation: true
 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
 management:
   endpoints:
     web:
