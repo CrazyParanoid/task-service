@@ -1,7 +1,7 @@
 spring.profiles.active: develop
 spring.main.allow-bean-definition-overriding: true
 
-server.port: 8082
+server.port: 8080
 
 spring:
   application:
@@ -11,10 +11,10 @@ spring:
       kafka:
         binder:
           brokers:
-            - localhost:9092
+            - ${BROKER_ADDRESS}
       bindings:
         input:
-          destination: sprintStartedChannel
+          destination: ${CHANNEL_NAME}
           content-type: application/json
   flyway:
     enabled: true
@@ -23,9 +23,9 @@ spring:
   batch:
     initialize-schema: never
   datasource:
-    url: jdbc:postgresql://localhost:5432/task-db
-    username: postgres
-    password: postgres
+    url: ${DB_URI}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     initialization-mode: never
     hikari:
