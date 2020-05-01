@@ -1,4 +1,4 @@
-package ru.agiletech.task.service.eventbus;
+package ru.agiletech.task.service.input.ports.eventbus;
 
 public interface PipeFilter<T> {
 

@@ -1,9 +1,9 @@
-package ru.agiletech.task.service.presentation.hateoas;
+package ru.agiletech.task.service.input.ports.presentation.hateoas;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import ru.agiletech.task.service.application.task.TaskDTO;
-import ru.agiletech.task.service.presentation.TaskResource;
+import ru.agiletech.task.service.input.ports.presentation.TaskResource;
 
 @UtilityClass
 public class LinksUtil {

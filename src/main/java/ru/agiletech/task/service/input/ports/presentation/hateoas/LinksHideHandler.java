@@ -1,4 +1,4 @@
-package ru.agiletech.task.service.presentation.hateoas;
+package ru.agiletech.task.service.input.ports.presentation.hateoas;
 
 import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;

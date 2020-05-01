@@ -1,4 +1,4 @@
-package ru.agiletech.task.service.presentation;
+package ru.agiletech.task.service.input.ports.presentation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.agiletech.task.service.application.task.TaskDTO;
 import ru.agiletech.task.service.application.task.TaskService;
-import ru.agiletech.task.service.presentation.hateoas.LinksUtil;
+import ru.agiletech.task.service.input.ports.presentation.hateoas.LinksUtil;
 
 import javax.validation.Valid;
 import java.util.Set;
