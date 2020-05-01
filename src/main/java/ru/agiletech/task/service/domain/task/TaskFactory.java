@@ -1,18 +1,13 @@
 package ru.agiletech.task.service.domain.task;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import ru.agiletech.task.service.domain.timetracker.TimeTracker;
-
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class TaskFactory {
 
-    private static final long START_TASK_ID_COUNT_VALUE = 1L;
     private static final String DELIMITER = "-";
 
     private final TaskRepository taskRepository;
@@ -34,27 +29,12 @@ public class TaskFactory {
     }
 
     private TaskId identifyTask(Project project){
-        Set<Task> tasks = taskRepository.allTasksOfProject(project);
-        String projectKey = project.getKey();
+        long taskCount = taskRepository.countTasksOfProject(project);
+        taskCount++;
 
-        if(CollectionUtils.isEmpty(tasks)){
-            String rawTaskId = projectKey
-                    + DELIMITER
-                    + START_TASK_ID_COUNT_VALUE;
-
-            return TaskId.identifyTaskFrom(rawTaskId);
-        }
-
-        long sequence = tasks.stream().map(Task::taskId)
-                .map(taskId -> taskId.replace(projectKey + DELIMITER, StringUtils.EMPTY))
-                .mapToLong(Long::parseLong)
-                .max()
-                .orElse(START_TASK_ID_COUNT_VALUE);
-        sequence++;
-
-        String rawTaskId = projectKey
+        String rawTaskId = project.getKey()
                 + DELIMITER
-                + sequence;
+                + taskCount;
 
         return TaskId.identifyTaskFrom(rawTaskId);
     }

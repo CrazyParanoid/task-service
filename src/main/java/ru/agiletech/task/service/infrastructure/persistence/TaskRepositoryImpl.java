@@ -57,9 +57,9 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Set<Task> allTasksOfProject(Project project) {
+    public long countTasksOfProject(Project project) {
         try{
-            return new HashSet<>(taskDAO.findByProject(project));
+            return taskDAO.countByProject(project);
 
         } catch (DataAccessException ex){
             log.error(ex.getMessage());

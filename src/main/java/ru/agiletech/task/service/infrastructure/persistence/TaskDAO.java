@@ -5,13 +5,12 @@ import ru.agiletech.task.service.domain.task.Project;
 import ru.agiletech.task.service.domain.task.Task;
 import ru.agiletech.task.service.domain.task.TaskId;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface TaskDAO extends JpaRepository<Task, Long> {
 
     Optional<Task> findByTaskId(TaskId taskId);
 
-    List<Task> findByProject(Project project);
+    long countByProject(Project project);
 
 }

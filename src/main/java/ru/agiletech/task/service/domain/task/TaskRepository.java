@@ -10,6 +10,6 @@ public interface TaskRepository {
 
     Task taskOfId(TaskId taskId);
 
-    Set<Task> allTasksOfProject(Project project);
+    long countTasksOfProject(Project project);
 
 }
