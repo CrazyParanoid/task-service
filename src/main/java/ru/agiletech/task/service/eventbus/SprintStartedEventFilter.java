@@ -14,11 +14,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SprintStartedEventFilter implements PipeFilter<Map<String, Object>>{
 
-    private static final String SPRINT_ID = "sprintId";
-    private static final String TASK_ID = "taskId";
+    private static final String SPRINT_ID   = "sprintId";
+    private static final String TASK_ID     = "taskId";
 
     private final CommandProcessor<ScheduleToSprintCommand> scheduleToSprintCommandProcessor;
 
+    @Override
     @StreamListener(Sink.INPUT)
     public void onEvent(@Valid Map<String, Object> serializedEvent){
         String rawSprintId = (String) serializedEvent.get(SPRINT_ID);

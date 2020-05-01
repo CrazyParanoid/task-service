@@ -25,8 +25,8 @@ import java.util.UUID;
 @ContextConfiguration(classes = {Application.class})
 public class TestScheduleTaskToSprintEvent {
 
-    private static final String SPRINT_ID = "sprint_id";
-    private static final String TASK_ID = "task_id";
+    private static final String SPRINT_ID = "sprintId";
+    private static final String TASK_ID = "taskId";
 
     @Autowired
     private Sink sink;
@@ -40,6 +40,7 @@ public class TestScheduleTaskToSprintEvent {
 
         taskDTO.setSummary("New task");
         taskDTO.setDescription("Description for new task");
+        taskDTO.setProjectKey("TST");
 
         String sprintId = UUID.randomUUID().toString();
 

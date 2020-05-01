@@ -11,12 +11,12 @@ import java.util.Objects;
 @Setter(value = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TaskId implements ValueObject {
+public class Project implements ValueObject {
 
-    private String id;
+    private String key;
 
-    public static TaskId identifyTaskFrom(String id){
-        return new TaskId(id);
+    static Project createFrom(String key){
+        return new Project(key);
     }
 
     @Override
@@ -27,14 +27,14 @@ public class TaskId implements ValueObject {
                 || getClass() != object.getClass())
             return false;
 
-        TaskId taskId = (TaskId) object;
-        return Objects.equals(id,
-                taskId.id);
+        Project project = (Project) object;
+        return Objects.equals(key,
+                project.key);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(key);
     }
 
 }

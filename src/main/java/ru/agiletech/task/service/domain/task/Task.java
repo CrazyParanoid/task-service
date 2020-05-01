@@ -26,6 +26,12 @@ public class Task extends AggregateRoot {
 
     @Embedded
     @AttributeOverrides({
+            @AttributeOverride(name="key", column=@Column(name="project_key"))
+    })
+    private Project         project;
+
+    @Embedded
+    @AttributeOverrides({
             @AttributeOverride(name="id", column=@Column(name="assignee_id"))
     })
     private TeammateId      assignee;
@@ -47,15 +53,17 @@ public class Task extends AggregateRoot {
     private String          summary;
     private String          description;
 
-    private Task(TaskId             taskId,
-                 TimeTracker        timeTracker,
-                 Priority           priority,
-                 WorkFlowStatus     workFlowStatus,
-                 String             summary,
-                 String             description) {
+    Task(TaskId             taskId,
+         TimeTracker        timeTracker,
+         Priority           priority,
+         Project            project,
+         WorkFlowStatus     workFlowStatus,
+         String             summary,
+         String             description) {
         this.taskId         = taskId;
         this.timeTracker    = timeTracker;
         this.priority       = priority;
+        this.project        = project;
         this.workFlowStatus = workFlowStatus;
         this.summary        = summary;
         this.description    = description;
@@ -150,19 +158,6 @@ public class Task extends AggregateRoot {
 
     public LocalDate endDate(){
         return this.timeTracker.getEndDate();
-    }
-
-    public static Task create(String summary,
-                              String description){
-        var taskId = TaskId.identifyTask();
-        TimeTracker timeTracker = TimeTracker.create();
-
-        return new Task(taskId,
-                timeTracker,
-                Priority.LOW,
-                WorkFlowStatus.BACKLOG,
-                summary,
-                description);
     }
 
     @RequiredArgsConstructor

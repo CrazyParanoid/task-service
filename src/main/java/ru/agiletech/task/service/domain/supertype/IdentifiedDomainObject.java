@@ -9,10 +9,11 @@ import javax.persistence.MappedSuperclass;
 
 @Data
 @MappedSuperclass
-public class IdentifiedDomainObject {
+public abstract class IdentifiedDomainObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
 }

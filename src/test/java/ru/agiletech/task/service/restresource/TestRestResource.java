@@ -84,6 +84,7 @@ public class TestRestResource {
 
         taskDTO.setSummary("New task");
         taskDTO.setDescription("Description for new task");
+        taskDTO.setProjectKey("TST");
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/tasks")
                 .content(objectMapper.writeValueAsString(taskDTO))

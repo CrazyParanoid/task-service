@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agiletech.task.service.domain.task.Task;
-import ru.agiletech.task.service.domain.task.TaskId;
-import ru.agiletech.task.service.domain.task.TaskRepository;
-import ru.agiletech.task.service.domain.task.TeammateId;
+import ru.agiletech.task.service.domain.task.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +17,7 @@ import static ru.agiletech.task.service.domain.task.Task.*;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService{
 
+    private final TaskFactory       taskFactory;
     private final TaskRepository    taskRepository;
     private final TaskAssembler     taskAssembler;
 
@@ -27,8 +25,9 @@ public class TaskServiceImpl implements TaskService{
     @Transactional
     public TaskDTO createTask(TaskDTO taskDTO) {
         log.info("Create task");
-        Task task = create(taskDTO.getSummary(),
-                taskDTO.getDescription());
+        Task task = taskFactory.createTask(taskDTO.getSummary(),
+                taskDTO.getDescription(),
+                taskDTO.getProjectKey());
 
         String id = task.taskId();
 
@@ -37,7 +36,7 @@ public class TaskServiceImpl implements TaskService{
 
         log.info("Task with id {} has been saved", id);
 
-        return taskAssembler.writeDTO(task);
+        return taskAssembler.toModel(task);
     }
 
     @Override
@@ -137,7 +136,7 @@ public class TaskServiceImpl implements TaskService{
 
         log.info("Task with id {} has been found", rawTaskId);
 
-        return taskAssembler.writeDTO(task);
+        return taskAssembler.toModel(task);
     }
 
     @Override
@@ -149,7 +148,7 @@ public class TaskServiceImpl implements TaskService{
         Set<TaskDTO> taskDTOS = new HashSet<>();
 
         if(CollectionUtils.isNotEmpty(tasks))
-            tasks.forEach(task -> taskDTOS.add(taskAssembler.writeDTO(task)));
+            tasks.forEach(task -> taskDTOS.add(taskAssembler.toModel(task)));
 
         log.info("All created tasks have been found");
 

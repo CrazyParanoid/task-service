@@ -3,13 +3,12 @@ package ru.agiletech.task.service.domain;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agiletech.task.service.Application;
-import ru.agiletech.task.service.domain.task.SprintId;
-import ru.agiletech.task.service.domain.task.Task;
-import ru.agiletech.task.service.domain.task.TeammateId;
+import ru.agiletech.task.service.domain.task.*;
 
 import java.util.UUID;
 
@@ -22,15 +21,28 @@ import static ru.agiletech.task.service.domain.task.Task.*;
 @ContextConfiguration(classes = {Application.class})
 public class TestTask {
 
+    @Autowired
+    private TaskFactory     taskFactory;
+    @Autowired
+    private TaskRepository  taskRepository;
+
     private Task task;
 
     @Test
     public void testCreateTask(){
         this.task = createTask();
 
+        taskRepository.save(this.task);
+
         assertNotNull(task.taskId());
         assertNotNull(task.workFlowStatus());
         assertNotNull(task.priority());
+
+        Task newTask = createTask();
+
+        assertNotNull(newTask.taskId());
+        assertNotNull(newTask.workFlowStatus());
+        assertNotNull(newTask.priority());
     }
 
     @Test
@@ -116,9 +128,11 @@ public class TestTask {
     private Task createTask(){
         String summary = "New task";
         String description = "Description for new task";
+        String projectKey = "TST";
 
-        return create(summary,
-                description);
+        return taskFactory.createTask(summary,
+                description,
+                projectKey);
     }
 
     private void assignTeammate(Task task){

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import ru.agiletech.task.service.domain.task.Project;
 import ru.agiletech.task.service.domain.task.Task;
 import ru.agiletech.task.service.domain.task.TaskId;
 import ru.agiletech.task.service.domain.task.TaskRepository;
@@ -47,6 +48,18 @@ public class TaskRepositoryImpl implements TaskRepository {
         try{
             return taskDAO.findByTaskId(taskId)
                     .orElseThrow(() -> new TaskNotFoundException(String.format("Task with id %s is not found", taskId.getId())));
+
+        } catch (DataAccessException ex){
+            log.error(ex.getMessage());
+
+            throw new RepositoryAccessException(ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public Set<Task> allTasksOfProject(Project project) {
+        try{
+            return new HashSet<>(taskDAO.findByProject(project));
 
         } catch (DataAccessException ex){
             log.error(ex.getMessage());

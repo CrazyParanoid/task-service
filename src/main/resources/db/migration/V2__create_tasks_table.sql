@@ -7,6 +7,7 @@ CREATE TABLE TASKS(
   START_DATE                  DATE                      NULL ,
   END_DATE                    DATE                      NULL ,
   WORK_HOURS                  BIGINT                    NULL ,
+  PROJECT_KEY                 VARCHAR (50)              NOT NULL ,
   PRIORITY                    VARCHAR (100)             NOT NULL ,
   WORK_FLOW_STATUS            VARCHAR (100)             NOT NULL ,
   SUMMARY                     TEXT                      NOT NULL ,
