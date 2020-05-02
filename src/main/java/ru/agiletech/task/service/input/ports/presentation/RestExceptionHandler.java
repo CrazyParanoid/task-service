@@ -8,6 +8,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.agiletech.task.service.infrastructure.messaging.MessagePublishingException;
 import ru.agiletech.task.service.infrastructure.persistence.RepositoryAccessException;
 import ru.agiletech.task.service.infrastructure.persistence.TaskNotFoundException;
 
@@ -45,7 +46,7 @@ public class RestExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RepositoryAccessException.class)
+    @ExceptionHandler({RepositoryAccessException.class, MessagePublishingException.class})
     private ResponseEntity<String> catchInfrastructureExceptions(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);

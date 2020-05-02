@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.agiletech.task.service.domain.timetracker.TimeTracker;
 
+import java.util.Date;
+
 @Component
 @RequiredArgsConstructor
 public class TaskFactory {
@@ -19,13 +21,22 @@ public class TaskFactory {
         TaskId taskId = identifyTask(project);
         TimeTracker timeTracker = TimeTracker.create();
 
-        return new Task(taskId,
+        Task task = new Task(taskId,
                 timeTracker,
                 Task.Priority.LOW,
                 project,
                 Task.WorkFlowStatus.BACKLOG,
                 summary,
                 description);
+
+        String eventName = TaskCreated.class.getName();
+
+        task.registerDomainEvent(new TaskCreated(new Date(),
+                eventName,
+                project,
+                taskId));
+
+        return task;
     }
 
     private TaskId identifyTask(Project project){

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agiletech.task.service.domain.task.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static ru.agiletech.task.service.domain.task.Task.*;
@@ -17,9 +18,10 @@ import static ru.agiletech.task.service.domain.task.Task.*;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService{
 
-    private final TaskFactory       taskFactory;
-    private final TaskRepository    taskRepository;
-    private final TaskAssembler     taskAssembler;
+    private final TaskFactory                       taskFactory;
+    private final TaskRepository                    taskRepository;
+    private final TaskAssembler                     taskAssembler;
+    private final DomainEventPublisher<TaskCreated> taskCreatedEventPublisher;
 
     @Override
     @Transactional
@@ -32,6 +34,12 @@ public class TaskServiceImpl implements TaskService{
         String id = task.taskId();
 
         log.info("Task with id {} has been created", id);
+
+        List<TaskCreated> events = task.getDomainEventsByType(TaskCreated.class);
+
+        taskCreatedEventPublisher.publish(events);
+        log.info("TaskCreated event has been published");
+
         taskRepository.save(task);
 
         log.info("Task with id {} has been saved", id);

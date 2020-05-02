@@ -9,6 +9,7 @@ import org.slf4j.MDC;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Configuration
 @EnableDiscoveryClient
-@EnableBinding(Sink.class)
+@EnableBinding({Sink.class, Source.class})
 public class ApplicationConfig implements WebMvcConfigurer {
 
     @Bean
