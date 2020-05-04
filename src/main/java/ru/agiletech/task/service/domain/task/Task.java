@@ -112,9 +112,6 @@ public class Task extends AggregateRoot {
     }
 
     public void scheduleToSprint(SprintId sprintId){
-        if(this.workFlowStatus == WorkFlowStatus.DONE)
-            throw new UnsupportedOperationException("Невозможно спланировать завершенную задачу в спринт.");
-
         this.sprintId = sprintId;
     }
 
