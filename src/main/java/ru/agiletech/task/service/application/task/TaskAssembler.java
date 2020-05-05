@@ -18,14 +18,16 @@ public class TaskAssembler implements RepresentationModelAssembler<Task, TaskDTO
     public TaskDTO toModel(@NotNull Task task) {
         var taskDTO = modelMapper.map(task, TaskDTO.class);
 
+        var snapshot = task.makeSnapshot();
+
         taskDTO.setId(task.taskId());
-        taskDTO.setWorkFlowStatus(task.workFlowStatus());
-        taskDTO.setAssignee(task.assigneeId());
-        taskDTO.setStartDate(task.startDate());
-        taskDTO.setEndDate(task.endDate());
-        taskDTO.setWorkDays(task.workDays());
-        taskDTO.setWorkHours(task.workHours());
-        taskDTO.setPriority(task.priority());
+        taskDTO.setWorkFlowStatus(snapshot.getFlowStatus());
+        taskDTO.setAssignee(snapshot.getAssigneeId());
+        taskDTO.setStartDate(snapshot.getStartDate());
+        taskDTO.setEndDate(snapshot.getEndDate());
+        taskDTO.setWorkDays(snapshot.getWorkDays());
+        taskDTO.setWorkHours(snapshot.getWorkHours());
+        taskDTO.setPriority(snapshot.getPriority());
 
         return taskDTO;
     }

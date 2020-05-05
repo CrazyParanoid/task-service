@@ -1,14 +1,11 @@
 package ru.agiletech.task.service.domain.task;
 
 import lombok.*;
-import org.apache.commons.lang3.StringUtils;
 import ru.agiletech.task.service.domain.supertype.AggregateRoot;
 import ru.agiletech.task.service.domain.timetracker.TimeTracker;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "tasks")
@@ -119,42 +116,18 @@ public class Task extends AggregateRoot {
         return this.taskId.getId();
     }
 
-    public String sprintId(){
-        if(Optional.ofNullable(this.sprintId).isPresent())
-            return this.sprintId.getId();
+    public TaskSnapshot makeSnapshot(){
+        Long workHours = this.timeTracker.getWorkHours();
+        Long workDays = this.timeTracker.calculateWorkingDays();
 
-        return StringUtils.EMPTY;
-    }
-
-    public String assigneeId(){
-        if(Optional.ofNullable(this.assignee).isPresent())
-            return this.assignee.getId();
-
-        return StringUtils.EMPTY;
-    }
-
-    public String workFlowStatus(){
-        return this.workFlowStatus.getName();
-    }
-
-    public String priority(){
-        return this.priority.getName();
-    }
-
-    public Long workHours(){
-        return this.timeTracker.getWorkHours();
-    }
-
-    public Long workDays(){
-        return this.timeTracker.calculateWorkingDays();
-    }
-
-    public LocalDate startDate(){
-        return this.timeTracker.getStartDate();
-    }
-
-    public LocalDate endDate(){
-        return this.timeTracker.getEndDate();
+        return new TaskSnapshot(this.workFlowStatus,
+                this.priority,
+                this.sprintId,
+                this.assignee,
+                workHours,
+                workDays,
+                this.timeTracker.getStartDate(),
+                this.timeTracker.getEndDate());
     }
 
     @RequiredArgsConstructor

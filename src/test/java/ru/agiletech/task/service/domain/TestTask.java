@@ -34,15 +34,19 @@ public class TestTask {
 
         taskRepository.save(this.task);
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
 
         Task newTask = createTask();
 
+        TaskSnapshot newSnapshot = task.makeSnapshot();
+
         assertNotNull(newTask.taskId());
-        assertNotNull(newTask.workFlowStatus());
-        assertNotNull(newTask.priority());
+        assertNotNull(newSnapshot.getWorkFlowStatus());
+        assertNotNull(newSnapshot.getPriority());
     }
 
     @Test
@@ -52,9 +56,11 @@ public class TestTask {
         assignTeammate(task);
         task.startWork();
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
     }
 
     @Test
@@ -66,9 +72,11 @@ public class TestTask {
         task.startWork();
         task.stopWork();
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
     }
 
     @Test
@@ -77,10 +85,12 @@ public class TestTask {
 
         assignTeammate(task);
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
-        assertNotNull(task.assigneeId());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
+        assertNotNull(snapshot.getAssigneeId());
     }
 
     @Test
@@ -91,9 +101,11 @@ public class TestTask {
 
         task.changePriority(priority);
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
     }
 
     @Test
@@ -105,10 +117,12 @@ public class TestTask {
         SprintId sprintId = SprintId.identifySprintFrom(rawSprintId);
         task.scheduleToSprint(sprintId);
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
-        assertNotNull(task.sprintId());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
+        assertNotNull(snapshot.getSprintId());
     }
 
     @Test
@@ -119,10 +133,12 @@ public class TestTask {
         task.startWork();
         task.noteWorkHours(4);
 
+        TaskSnapshot snapshot = task.makeSnapshot();
+
         assertNotNull(task.taskId());
-        assertNotNull(task.workFlowStatus());
-        assertNotNull(task.priority());
-        assertNotNull(task.workHours());
+        assertNotNull(snapshot.getWorkFlowStatus());
+        assertNotNull(snapshot.getPriority());
+        assertNotNull(snapshot.getWorkHours());
     }
 
     private Task createTask(){
