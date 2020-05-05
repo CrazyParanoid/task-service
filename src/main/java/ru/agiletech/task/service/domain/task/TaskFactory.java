@@ -2,6 +2,7 @@ package ru.agiletech.task.service.domain.task;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.agiletech.task.service.domain.project.Project;
 import ru.agiletech.task.service.domain.timetracker.TimeTracker;
 
 import java.util.Date;

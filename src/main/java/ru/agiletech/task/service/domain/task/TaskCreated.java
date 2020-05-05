@@ -1,6 +1,7 @@
 package ru.agiletech.task.service.domain.task;
 
 import lombok.Getter;
+import ru.agiletech.task.service.domain.project.Project;
 import ru.agiletech.task.service.domain.supertype.DomainEvent;
 
 import java.util.Date;

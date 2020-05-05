@@ -1,4 +1,4 @@
-package ru.agiletech.task.service.domain.task;
+package ru.agiletech.task.service.domain.project;
 
 import lombok.*;
 import ru.agiletech.task.service.domain.supertype.ValueObject;
@@ -15,7 +15,7 @@ public class Project implements ValueObject {
 
     private String key;
 
-    static Project createFrom(String key){
+    public static Project createFrom(String key){
         return new Project(key);
     }
 

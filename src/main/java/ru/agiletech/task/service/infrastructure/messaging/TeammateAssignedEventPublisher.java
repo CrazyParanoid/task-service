@@ -7,9 +7,9 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.agiletech.task.service.domain.task.DomainEventPublisher;
-import ru.agiletech.task.service.domain.project.Project;
-import ru.agiletech.task.service.domain.task.TaskCreated;
 import ru.agiletech.task.service.domain.task.TaskId;
+import ru.agiletech.task.service.domain.task.TeammateAssigned;
+import ru.agiletech.task.service.domain.teammate.TeammateId;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,28 +18,28 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TaskCreatedEventPublisher implements DomainEventPublisher<TaskCreated> {
+public class TeammateAssignedEventPublisher implements DomainEventPublisher<TeammateAssigned> {
 
     private static final String OCCURRED_ON     = "occurredOn";
     private static final String NAME            = "name";
-    private static final String PROJECT_KEY     = "key";
+    private static final String ASSIGNEE_ID     = "assigneeId";
     private static final String TASK_ID         = "taskId";
     private static final String EVENT_NAME      = "eventName";
 
     private final Source source;
 
     @Override
-    public void publish(List<TaskCreated> domainEvents) {
+    public void publish(List<TeammateAssigned> domainEvents) {
         try{
-            for(TaskCreated event: domainEvents){
+            for(TeammateAssigned event: domainEvents){
                 Map<String, Object> serializedEvent = new HashMap<>();
 
                 TaskId taskId = event.getTaskId();
-                Project project = event.getProject();
+                TeammateId assignee = event.getAssignee();
 
                 serializedEvent.put(OCCURRED_ON, event.getOccurredOn());
                 serializedEvent.put(NAME, event.getName());
-                serializedEvent.put(PROJECT_KEY, project.getKey());
+                serializedEvent.put(ASSIGNEE_ID, assignee.getId());
                 serializedEvent.put(TASK_ID, taskId.getId());
 
                 source.output()

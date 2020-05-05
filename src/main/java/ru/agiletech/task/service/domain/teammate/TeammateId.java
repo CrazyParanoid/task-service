@@ -1,4 +1,4 @@
-package ru.agiletech.task.service.domain.task;
+package ru.agiletech.task.service.domain.teammate;
 
 import lombok.*;
 import ru.agiletech.task.service.domain.supertype.ValueObject;
@@ -11,12 +11,12 @@ import java.util.Objects;
 @Setter(value = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SprintId implements ValueObject {
+public class TeammateId implements ValueObject {
 
     private String id;
 
-    public static SprintId identifySprintFrom(String id){
-        return new SprintId(id);
+    public static TeammateId identifyTeammateFrom(String id){
+        return new TeammateId(id);
     }
 
     @Override
@@ -27,9 +27,9 @@ public class SprintId implements ValueObject {
                 || getClass() != object.getClass())
             return false;
 
-        SprintId sprintId = (SprintId) object;
+        TeammateId teammateId = (TeammateId) object;
         return Objects.equals(id,
-                sprintId.id);
+                teammateId.id);
     }
 
     @Override

@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import ru.agiletech.task.service.domain.sprint.SprintId;
+import ru.agiletech.task.service.domain.teammate.TeammateId;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -16,8 +18,8 @@ public class TaskSnapshot {
 
     private final WorkFlowStatus    workFlowStatus;
     private final Priority          priority;
-    private final SprintId          sprintId;
-    private final TeammateId        assignee;
+    private final SprintId sprintId;
+    private final TeammateId assignee;
     private final Long              workHours;
     private final Long              workDays;
     private final LocalDate         startDate;

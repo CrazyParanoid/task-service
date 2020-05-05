@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class SprintStartedEventFilter implements PipeFilter<Map<String, Object>>{
+public class SprintStartedEventSubscriber implements EventSubscriber<Map<String, Object>> {
 
     private static final String SPRINT_ID   = "sprintId";
     private static final String TASK_ID     = "taskId";

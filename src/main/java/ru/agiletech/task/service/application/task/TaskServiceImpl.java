@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agiletech.task.service.domain.task.*;
+import ru.agiletech.task.service.domain.teammate.TeammateId;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,10 +19,11 @@ import static ru.agiletech.task.service.domain.task.Task.*;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService{
 
-    private final TaskFactory                       taskFactory;
-    private final TaskRepository                    taskRepository;
-    private final TaskAssembler                     taskAssembler;
-    private final DomainEventPublisher<TaskCreated> taskCreatedEventPublisher;
+    private final TaskFactory                               taskFactory;
+    private final TaskRepository                            taskRepository;
+    private final TaskAssembler                             taskAssembler;
+    private final DomainEventPublisher<TaskCreated>         taskCreatedEventPublisher;
+    private final DomainEventPublisher<TeammateAssigned>    teammateAssignedEventPublisher;
 
     @Override
     @Transactional
@@ -32,7 +34,6 @@ public class TaskServiceImpl implements TaskService{
                 taskDTO.getProjectKey());
 
         String id = task.taskId();
-
         log.info("Task with id {} has been created", id);
 
         List<TaskCreated> events = task.getDomainEventsByType(TaskCreated.class);
@@ -78,8 +79,12 @@ public class TaskServiceImpl implements TaskService{
         TeammateId teammateId = TeammateId.identifyTeammateFrom(rawTeammateId);
         task.assignTeammate(teammateId);
 
-        log.info("Teammate has been assigned for task with id {}", rawTaskId);
+        List<TeammateAssigned> events = task.getDomainEventsByType(TeammateAssigned.class);
 
+        teammateAssignedEventPublisher.publish(events);
+        log.info("TeammateAssigned event has been published");
+
+        log.info("Teammate has been assigned for task with id {}", rawTaskId);
         taskRepository.save(task);
 
         log.info("Task with id {} has been saved", rawTaskId);

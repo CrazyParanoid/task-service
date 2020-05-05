@@ -3,7 +3,7 @@ package ru.agiletech.task.service.application.sprint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.agiletech.task.service.domain.task.SprintId;
+import ru.agiletech.task.service.domain.sprint.SprintId;
 import ru.agiletech.task.service.domain.task.Task;
 import ru.agiletech.task.service.domain.task.TaskId;
 import ru.agiletech.task.service.domain.task.TaskRepository;

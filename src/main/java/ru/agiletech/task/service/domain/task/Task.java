@@ -1,10 +1,14 @@
 package ru.agiletech.task.service.domain.task;
 
 import lombok.*;
+import ru.agiletech.task.service.domain.project.Project;
+import ru.agiletech.task.service.domain.sprint.SprintId;
 import ru.agiletech.task.service.domain.supertype.AggregateRoot;
+import ru.agiletech.task.service.domain.teammate.TeammateId;
 import ru.agiletech.task.service.domain.timetracker.TimeTracker;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -25,13 +29,13 @@ public class Task extends AggregateRoot {
     @AttributeOverrides({
             @AttributeOverride(name="key", column=@Column(name="project_key"))
     })
-    private Project         project;
+    private Project project;
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="id", column=@Column(name="assignee_id"))
     })
-    private TeammateId      assignee;
+    private TeammateId assignee;
 
     @Embedded
     @AttributeOverrides({
@@ -99,6 +103,13 @@ public class Task extends AggregateRoot {
 
         this.assignee = teammateId;
         this.workFlowStatus = WorkFlowStatus.TODO;
+
+        String eventName = TeammateAssigned.class.getName();
+
+        registerDomainEvent(new TeammateAssigned(new Date(),
+                eventName,
+                this.assignee,
+                this.taskId));
     }
 
     public void changePriority(Priority priority){
@@ -175,11 +186,14 @@ public class Task extends AggregateRoot {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) return true;
+        if (this == object)
+            return true;
         if (object == null
                 || getClass() != object.getClass())
             return false;
+
         Task task = (Task) object;
+
         return Objects.equals(taskId,
                 task.taskId);
     }

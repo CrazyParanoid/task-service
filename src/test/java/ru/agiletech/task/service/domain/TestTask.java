@@ -8,7 +8,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.agiletech.task.service.Application;
+import ru.agiletech.task.service.domain.sprint.SprintId;
 import ru.agiletech.task.service.domain.task.*;
+import ru.agiletech.task.service.domain.teammate.TeammateId;
 
 import java.util.UUID;
 
@@ -23,6 +25,7 @@ public class TestTask {
 
     @Autowired
     private TaskFactory     taskFactory;
+
     @Autowired
     private TaskRepository  taskRepository;
 
